@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>3Dolphins - Priority Broadcast Engine</title>
+    <h:outputStylesheet name="css/broadcast-style.css" />
+</h:head>
+
+<h:body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header-container">
+            <h1 class="header-title">🐬 3Dolphins Priority Broadcast Engine</h1>
+            <p class="header-subtitle">Omnichannel Messaging Engine Prototype (WhatsApp &amp; Facebook Broadcast)</p>
+        </div>
+
+        <h:form id="broadcastForm">
+            <!-- Global Messages for Validation or Info Feedback -->
+            <p:messages id="msgs" showDetail="true" closable="true" />
+
+            <!-- Customer Datatable -->
+            <p:dataTable id="customerTable" value="#{broadcastController.customers}" var="customer" rows="10"
+                rowStyleClass="#{customer.selected ? 'row-selected' : ''} #{customer.status eq 'Sending' ? 'row-sending' : ''} #{customer.status eq 'Pending' and broadcastController.broadcastRunning ? 'row-pending' : ''}">
+
+                <!-- Selection Checkbox -->
+                <p:column headerText="Select" style="width:70px; text-align:center;">
+                    <p:selectBooleanCheckbox value="#{customer.selected}"
+                        disabled="#{broadcastController.broadcastRunning}">
+                        <p:ajax update="customerTable" />
+                    </p:selectBooleanCheckbox>
+                </p:column>
+
+                <!-- Customer ID -->
+                <p:column headerText="ID" style="width:100px;">
+                    <h:outputText value="CUST-00#{customer.id}" styleClass="font-mono text-muted" />
+                </p:column>
+
+                <!-- Customer Name -->
+                <p:column headerText="Name">
+                    <h:outputText value="#{customer.name}" styleClass="text-white" style="font-weight: 600;" />
+                </p:column>
+
+                <!-- Phone Number -->
+                <p:column headerText="Phone Number">
+                    <h:outputText value="#{customer.phoneNumber}" styleClass="font-mono text-muted" />
+                </p:column>
+
+                <!-- Delivery Status Badge -->
+                <p:column headerText="Status" style="width:180px; text-align:center;">
+                    <span class="badge #{customer.status eq 'Pending' ? 'badge-idle' : 
+                                         customer.status eq 'Sending' ? 'badge-sending' : 
+                                         customer.status eq 'Sent' ? 'badge-delivered' : 
+                                         customer.status eq 'Failed' ? 'badge-failed' : 
+                                         customer.status eq 'Queued' ? 'badge-queued' : 'badge-idle'}">
+
+                        <h:panelGroup rendered="#{customer.status eq 'Sending'}">
+                            <i class="pi pi-spin pi-spinner icon-spin" style="margin-right: 4px;"></i>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{customer.status eq 'Sent'}">
+                            <i class="pi pi-check" style="margin-right: 4px;"></i>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{customer.status eq 'Failed'}">
+                            <i class="pi pi-times" style="margin-right: 4px;"></i>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{customer.status eq 'Pending'}">
+                            <i class="pi pi-clock" style="margin-right: 4px;"></i>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{customer.status eq 'Queued'}">
+                            <i class="pi pi-envelope" style="margin-right: 4px;"></i>
+                        </h:panelGroup>
+
+                        #{customer.status eq 'Sent' ? 'Delivered' : customer.status}
+                    </span>
+                </p:column>
+            </p:dataTable>
+
+            <!-- Control Buttons (Hanya muncul saat broadcast tidak aktif) -->
+            <h:panelGroup id="controlArea" layout="block" styleClass="control-area"
+                rendered="#{not broadcastController.broadcastRunning}">
+                <p:commandButton id="startBtn" value="Start Priority Broadcast"
+                    action="#{broadcastController.startBroadcast()}"
+                    update="customerTable progressBanner summaryBanner msgs controlArea" styleClass="btn-primary"
+                    disabled="#{broadcastController.broadcastRunning}"
+                    oncomplete="if(!args.validationFailed) PF('pollWidget').start();" />
+
+                <p:commandButton id="resetBtn" value="🔄 Reset" action="#{broadcastController.resetBroadcast()}"
+                    update="@form" styleClass="btn-outline" disabled="#{broadcastController.broadcastRunning}" />
+            </h:panelGroup>
+
+            <!-- Progress Banner (Muncul saat proses asinkron aktif) -->
+            <h:panelGroup id="progressBanner" layout="block" styleClass="progress-banner"
+                rendered="#{broadcastController.broadcastRunning}">
+                <div class="progress-banner-header">
+                    <span class="lock-indicator animate-pulse">
+                        <i class="pi pi-lock" style="margin-right: 4px;"></i> SYSTEM LOCKED
+                    </span>
+                    <span class="status-counter font-mono">
+                        #{broadcastController.processedCount} / #{broadcastController.totalSelected} TARGETS
+                    </span>
+                </div>
+                <p:progressBar id="progressBar" value="#{broadcastController.progress}" labelTemplate="{value}%"
+                    displayOnly="true" />
+                <div style="font-size: 11px; color: #64748B; margin-top: 8px;" class="font-mono">
+                    EST. TIME REMAINING: #{(broadcastController.totalSelected - broadcastController.processedCount) *
+                    2}s
+                </div>
+            </h:panelGroup>
+
+            <!-- Action Summary Banner (Muncul tetap di bawah kanan setelah broadcast selesai) -->
+            <h:panelGroup id="summaryBanner" layout="block" styleClass="command-bar"
+                rendered="#{not broadcastController.broadcastRunning and broadcastController.totalSelected &gt; 0}">
+                <div class="command-bar-info">
+                    <span class="command-bar-title">Broadcast Complete</span>
+                    <span class="badge badge-delivered">
+                        <i class="pi pi-check" style="margin-right: 4px;"></i>
+                        #{broadcastController.successCount} Delivered
+                    </span>
+                    <span class="badge badge-failed">
+                        <i class="pi pi-times" style="margin-right: 4px;"></i>
+                        #{broadcastController.failedCount} Failed
+                    </span>
+                </div>
+                <div>
+                    <p:commandButton value="Reset" action="#{broadcastController.resetBroadcast()}" update="@form"
+                        styleClass="btn-outline" icon="pi pi-refresh" />
+                </div>
+            </h:panelGroup>
+
+            <!-- AJAX Polling Widget -->
+            <p:poll id="pollWidget" widgetVar="pollWidget" interval="1"
+                listener="#{broadcastController.checkProgress()}"
+                update="customerTable progressBanner summaryBanner msgs" autoStart="false"
+                stop="#{!broadcastController.broadcastRunning}" />
+
+        </h:form>
+    </div>
+</h:body>
+
+</html>
