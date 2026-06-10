@@ -1,4 +1,4 @@
-# 3Dolphins Priority Broadcast Engine
+# [VIBE CODING] 3Dolphins Priority Broadcast Engine 
 
 ## Overview
 
