@@ -1,0 +1,384 @@
+/* === Design System Overrides for PrimeFaces === */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono:wght@500&display=swap');
+
+/* === Base === */
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background-color: #0A1128;
+  color: #F8FAFC;
+  margin: 0;
+  padding: 24px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-container {
+  margin-bottom: 24px;
+  border-bottom: 1px solid #1E293B;
+  padding-bottom: 16px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #F8FAFC;
+  margin: 0 0 8px 0;
+}
+
+.header-subtitle {
+  font-size: 13px;
+  color: #64748B;
+  margin: 0;
+}
+
+/* === PrimeFaces DataTable Override === */
+.ui-datatable {
+  border: 1px solid #1E293B;
+  background: #121E3A;
+  border-radius: 0;
+}
+
+.ui-datatable .ui-datatable-header {
+  background: #0A1128 !important;
+  border-bottom: 1px solid #1E293B !important;
+  color: #F8FAFC !important;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 16px !important;
+  border: none;
+  text-align: left;
+}
+
+.ui-datatable thead th {
+  background: #0A1128 !important;
+  color: #64748B !important;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #1E293B !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  padding: 12px 16px !important;
+}
+
+.ui-datatable tbody td {
+  border-bottom: 1px solid #1E293B !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  padding: 8px 16px !important;
+  height: 36px;
+  vertical-align: middle;
+  background: transparent !important;
+  color: #F8FAFC;
+}
+
+.ui-datatable tbody tr {
+  background: transparent !important;
+  transition: background-color 0.15s ease;
+}
+
+.ui-datatable tbody tr:hover {
+  background: rgba(30, 41, 59, 0.5) !important;
+}
+
+/* === Row States === */
+.row-selected {
+  background: #162B49 !important;
+  border-left: 2px solid #00E5FF;
+}
+
+.row-sending {
+  background: rgba(0, 229, 255, 0.1) !important;
+  border-left: 2px solid #00E5FF;
+}
+
+.row-pending {
+  opacity: 0.6;
+}
+
+/* === Data Typography === */
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.text-cyan { color: #00E5FF; }
+.text-muted { color: #64748B; }
+.text-white { color: #F8FAFC; }
+
+/* === Status Badges === */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 0;
+  font-weight: 600;
+}
+
+.badge-idle {
+  color: #64748B;
+  border: 1px solid #334155;
+  background: transparent;
+}
+
+.badge-sending {
+  color: #00E5FF;
+  border: 1px solid rgba(0, 229, 255, 0.5);
+  background: rgba(0, 229, 255, 0.2);
+}
+
+.badge-delivered {
+  color: #10B981;
+  border: 1px solid #10B981;
+  background: #064E3B;
+}
+
+.badge-failed {
+  color: #EF4444;
+  border: 1px solid #EF4444;
+  background: #7F1D1D;
+}
+
+.badge-pending {
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+}
+
+.badge-queued {
+  color: #EAB308;
+  border: 1px solid #EAB308;
+  background: rgba(234, 179, 8, 0.1);
+}
+
+/* === Progress Bar Override === */
+.ui-progressbar {
+  height: 6px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin-top: 16px;
+  position: relative;
+}
+
+.ui-progressbar .ui-progressbar-value {
+  background: #00E5FF !important;
+  border-radius: 0 !important;
+  box-shadow: 0 0 10px rgba(13, 219, 242, 0.8) !important;
+  transition: width 0.5s ease-in-out !important;
+  height: 100% !important;
+  margin: 0 !important;
+}
+
+/* === Command Bar / Summary Banner === */
+.command-bar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 600px;
+  height: 54px;
+  background: #121E3A;
+  border: 1px solid #00E5FF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+  z-index: 50;
+  box-sizing: border-box;
+}
+
+.command-bar-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.command-bar-title {
+  font-weight: 600;
+  color: #00E5FF;
+}
+
+.status-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: bold;
+}
+
+/* === Buttons === */
+.btn-primary {
+  background: #00E5FF !important;
+  color: #0A1128 !important;
+  font-family: 'IBM Plex Sans', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  border: none !important;
+  padding: 8px 20px !important;
+  cursor: pointer !important;
+  border-radius: 0 !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.btn-primary:hover {
+  background: #FFFFFF !important;
+}
+
+.btn-primary.ui-state-disabled {
+  background: #1E293B !important;
+  color: #64748B !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+}
+
+.btn-outline {
+  background: transparent !important;
+  color: #00E5FF !important;
+  border: 1px solid #00E5FF !important;
+  font-family: 'IBM Plex Sans', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  padding: 8px 20px !important;
+  cursor: pointer !important;
+  border-radius: 0 !important;
+  transition: all 0.15s ease !important;
+}
+
+.btn-outline:hover {
+  background: #00E5FF !important;
+  color: #0A1128 !important;
+}
+
+.btn-outline.ui-state-disabled {
+  border-color: #334155 !important;
+  color: #64748B !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+}
+
+/* === Spinner Animation === */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.icon-spin {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  font-size: 12px;
+}
+
+/* === Pulse Animation (for lock indicator) === */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* === PrimeFaces Checkbox Override === */
+.ui-chkbox .ui-chkbox-box {
+  width: 16px !important;
+  height: 16px !important;
+  border: 1px solid #64748B !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.ui-chkbox .ui-chkbox-box.ui-state-active {
+  background: #00E5FF !important;
+  border-color: #00E5FF !important;
+  color: #0A1128 !important;
+}
+
+.ui-chkbox .ui-chkbox-icon {
+  font-size: 10px !important;
+  margin-top: -1px !important;
+}
+
+/* === PrimeFaces Messages Override === */
+.ui-messages {
+  margin: 0 0 20px 0 !important;
+  border-radius: 0 !important;
+}
+
+.ui-messages-error {
+  background-color: #7F1D1D !important;
+  border: 1px solid #EF4444 !important;
+  color: #F8FAFC !important;
+}
+
+.ui-messages-info {
+  background-color: #1E293B !important;
+  border: 1px solid #00E5FF !important;
+  color: #00E5FF !important;
+}
+
+.ui-messages-error-icon, .ui-messages-info-icon {
+  display: none !important;
+}
+
+.ui-messages-error-summary, .ui-messages-info-summary {
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+/* === Control Area === */
+.control-area {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* === Progress Banner (Lock State) === */
+.progress-banner {
+  background: #121E3A;
+  border: 1px solid #1E293B;
+  padding: 16px 24px;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-banner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.lock-indicator {
+  color: #EF4444;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}

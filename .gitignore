@@ -1,1 +1,9 @@
 .agents
+plan.txt
+target/
+*.class
+*.war
+.idea/
+*.iml
+ui-ux
+issues.md
